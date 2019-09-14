@@ -31,9 +31,17 @@ namespace API
             // Anything added to this services container will be available to other parts of our application
             // We then can inject those services into our other application code 
 
-            services.AddDbContext<DataContext>(opt => {     
+            services.AddDbContext<DataContext>(opt =>
+            {
                 // Have to specify what our data provider is -> SQLite
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            });
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                });
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -55,6 +63,7 @@ namespace API
 
             // Anytime we hit a http endpoint, ti will automatically redirect to https
             // app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
             app.UseMvc();
         }
     }
