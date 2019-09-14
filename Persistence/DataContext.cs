@@ -1,5 +1,4 @@
-﻿using System;
-using Domain;
+﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
@@ -14,15 +13,17 @@ namespace Persistence
 
         // Values is going to be use for the table name inside SQLite
         public DbSet<Value> Values { get; set; }
+        public DbSet<Activity> Activities { get; set; }
 
-        // Override this method is going to allow us to configure the entities as our migration is being created
+        // Override this method is going to allow us to configure the entities as our migration is being created (Entity Framework configuration)
+        // Hence we can add data to the migration class
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Value>()
                 .HasData(
-                    new Value {Id = 1, Name = "Value 101"},
-                    new Value {Id = 2, Name = "Value 102"},
-                    new Value {Id = 3, Name = "Value 103"}
+                    new Value { Id = 1, Name = "Value 101" },
+                    new Value { Id = 2, Name = "Value 102" },
+                    new Value { Id = 3, Name = "Value 103" }
                 );
         }
     }
