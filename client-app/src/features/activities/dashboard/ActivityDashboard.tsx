@@ -41,6 +41,7 @@ const ActivityDashboard: React.FC<IProps> = ({
         )}
         {editMode && (
           <ActivityForm
+            key={(selectedActivity && selectedActivity.id) || 0} // Set the key, so when it changes, it will cause the component to re-initialize then update the state with the new state
             setEditMode={setEditMode}
             activity={selectedActivity!}
             createActivity={createActivity}
