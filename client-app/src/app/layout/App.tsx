@@ -32,9 +32,13 @@ const App = () => {
   };
 
   const handleEditActivity = (activity: IActivity) => {
-    setActivities([...activities.filter(a => a.id != activity.id), activity]);
+    setActivities([...activities.filter(a => a.id !== activity.id), activity]);
     setSelectedActivity(activity);
     setEditMode(false);
+  };
+
+  const handleDeleteActivity = (id: string) => {
+    setActivities([...activities.filter(a => a.id !== id)]);
   };
 
   // In order to get our data back from the API, we have to use useEffect hook
@@ -68,6 +72,7 @@ const App = () => {
           setSelectedActivity={setSelectedActivity}
           createActivity={handleCreateActivity}
           editActivity={handleEditActivity}
+          deleteActivity={handleDeleteActivity}
         />
       </Container>
     </Fragment>
