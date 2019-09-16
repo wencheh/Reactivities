@@ -1,15 +1,20 @@
 import React, { useState, FormEvent } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { IActivity } from '../../../app/models/activity';
+import { v4 as uuid } from 'uuid';
 
 interface IProps {
   setEditMode: (editMode: boolean) => void;
   activity: IActivity; // Represent initial form state
+  createActivity: (activity: IActivity) => void;
+  editActivity: (activity: IActivity) => void;
 }
 
 const ActivityForm: React.FC<IProps> = ({
   setEditMode,
-  activity: initialFormState
+  activity: initialFormState,
+  createActivity,
+  editActivity
 }) => {
   // Pass this function as the initial parameter of the useState hook
   const initializeForm = () => {
@@ -31,7 +36,15 @@ const ActivityForm: React.FC<IProps> = ({
   const [activity, setActivity] = useState<IActivity>(initializeForm);
 
   const handleSubmit = () => {
-    console.log(activity);
+    if (activity.id.length === 0) {
+      let newActivity = {
+        ...activity,
+        id: uuid() // Install uuid package, which is a well-known package create GUID on the client side
+      };
+      createActivity(newActivity);
+    } else {
+      editActivity(activity);
+    }
   };
 
   const handleInputChange = (
