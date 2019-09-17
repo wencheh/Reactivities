@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Item, Button, Label, Segment } from 'semantic-ui-react';
 import { IActivity } from '../../../app/models/activity';
 
 interface IProps {
   activities: IActivity[];
   selectActivity: (id: string) => void;
-  deleteActivity: (id: string) => void;
+  deleteActivity: (event: SyntheticEvent<HTMLButtonElement>, id: string) => void;
+  submitting: boolean;
+  target: string;
 }
 
 const ActivityList: React.FC<IProps> = ({
   activities,
   selectActivity,
-  deleteActivity
+  deleteActivity,
+  submitting,
+  target
 }) => {
   return (
     <Segment clearing>
@@ -34,7 +38,12 @@ const ActivityList: React.FC<IProps> = ({
                   color='blue'
                 />
                 <Button
-                  onClick={() => deleteActivity(activity.id)}
+                  name={activity.id} // Make each button unique
+                  
+                  // This loading flag is only going to be activated when we are deleting an activity, and the button name matches the activity.id
+                  // This loading indicator will not be activated when we are editing an event/activity 
+                  loading={target === activity.id && submitting}
+                  onClick={(e) => deleteActivity(e, activity.id)}  // Pass React mouse event as an additional parameter to deleteActivity, then from there we are able to extract the name of the button we are clicking, then set as the target button we want to activate when it is loading
                   floated='right'
                   content='Delete'
                   color='red'
