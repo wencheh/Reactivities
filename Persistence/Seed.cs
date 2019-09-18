@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain;
 
+// Previosly we use the entity framework configuration, so we can add data to a migration class
+// And then when we update our db with the new migration, it will populate the data into the db
+// Downside of this: We have to manually create the ids  each time for each entity
+// It becomes tricky when it comes to relational data
 namespace Persistence
 {
     public class Seed
     {
-        public static void SeedData(DataContext context)
+        public static void SeedData(DataContext context)  // Pass DataContext
         {
+            // Check if any activities in this single database, if nothing in database
             if (!context.Activities.Any())
             {
+                // Create several new activities
                 var activities = new List<Activity>
                 {
                     new Activity
@@ -106,7 +112,7 @@ namespace Persistence
                 };
 
                 context.Activities.AddRange(activities);
-                context.SaveChanges();
+                context.SaveChanges();   // Why not async? Because we are going to access this once when our application starts. And there's no user request to this as well
             }
         }
     }

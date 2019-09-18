@@ -4,6 +4,7 @@ namespace Domain
 {
     public class Activity
     {
+        // Using Guid allows us to create the id either on the server side or the client side code
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

@@ -8,13 +8,17 @@ import LoadingComponent from './LoadingComponent';
 
 // {} represents executable JavaScript code
 // Using className is because class is a reserved word for JavaScript
-// Using class we will have access to lifecycle method
+// Using class we will have access to lifecycle method -> should end up use React hooks
+// Whenever a component receives props, it causes a re-render of the component, and it updates the virtual DOM
+// Then the virtual DOM will then updates the actual DOM
+
+// React has a one-way binging: makes the code predictable and easy to debug
 const App = () => {
   const [activities, setActivities] = useState<IActivity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<IActivity | null>(
     null
   );
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(false); // initial value is false
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [target, setTarget] = useState(''); // target here is going to represent the button name (clicked)
