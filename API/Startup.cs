@@ -39,7 +39,8 @@ namespace API
                 });
             });
 
-            // Need to give it the Assembly our handlers are located in
+            // Need to give it the "Assembly" our handlers are located in
+            // In typeOf() we have to tell it one of the classes where our handlers are located
             services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -26,6 +26,7 @@ namespace Application.Activities
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 // Handler logic
+                // Get the activity
                 var activity = await _context.Activities.FindAsync(request.Id);
 
                 if (activity == null)

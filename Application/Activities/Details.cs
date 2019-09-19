@@ -11,6 +11,7 @@ namespace Application.Activities
     {
         public class Query : IRequest<Activity>
         {
+            // We have to specify the "id" of the activity we want to get back 
             public Guid Id { get; set; }
         }
 
@@ -24,6 +25,7 @@ namespace Application.Activities
 
             public async Task<Activity> Handle(Query request, CancellationToken cancellationToken)
             {
+                // Id is the primary key we will use to find the activity
                 var activity = await _context.Activities.FindAsync(request.Id);
 
                 return activity;

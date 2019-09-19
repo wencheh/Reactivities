@@ -10,6 +10,7 @@ namespace Application.Activities
     {
         public class Command : IRequest
         {
+            // We are not going to let the user edit the id
             public Guid Id { get; set; }
             public string Title { get; set; }
             public string Description { get; set; }
@@ -31,12 +32,14 @@ namespace Application.Activities
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 // Handler logic
+                // Get activity from the database
                 var activity = await _context.Activities.FindAsync(request.Id);
 
                 if (activity == null)
                     throw new Exception("Could not find activity");
 
                 // ?? meaning that if the left side is null, then the right side will be executed
+                // They don't possibly have to edit every field
                 activity.Title = request.Title ?? activity.Title;
                 activity.Description = request.Description ?? activity.Description;
                 activity.Category = request.Category ?? activity.Category;
@@ -44,6 +47,7 @@ namespace Application.Activities
                 activity.City = request.City ?? activity.City;
                 activity.Venue = request.Venue ?? activity.Venue;
 
+                // activity is tracked by the context
                 var success = await _context.SaveChangesAsync() > 0;
 
                 // Empty object, but it means that we are returning to our Api controller telling that requests are successful
