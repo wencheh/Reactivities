@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Menu, Container, Button } from 'semantic-ui-react';
+import ActivityStore from '../../app/stores/activityStore';
+import { observer } from 'mobx-react-lite';
 
-interface IProps {
-  openCreateForm: () => void;
-}
-
-const NavBar: React.FC<IProps> = ({ openCreateForm }) => {
+const NavBar: React.FC = () => {
+  const activityStore = useContext(ActivityStore);
   return (
     <Menu fixed='top' inverted>
+      {/* Using Container provides some default paddings */}
       <Container>
-        <Menu.Item>
+        <Menu.Item header>
           <img
             src='/assets/logo.png'
             alt='logo'
@@ -17,13 +17,17 @@ const NavBar: React.FC<IProps> = ({ openCreateForm }) => {
           />
           Reactivities
         </Menu.Item>
-        <Menu.Item name='Activities' />
+        {/* Using positive will give the button a green color */}
         <Menu.Item>
-          <Button onClick={openCreateForm} positive content='Create Activity' />
+          <Button
+            onClick={activityStore.openCreateForm}
+            positive
+            content='Create Activity'
+          />
         </Menu.Item>
       </Container>
     </Menu>
   );
 };
 
-export default NavBar;
+export default observer(NavBar);
