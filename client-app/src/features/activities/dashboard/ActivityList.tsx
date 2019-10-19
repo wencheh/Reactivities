@@ -33,11 +33,13 @@ const ActivityList: React.FC = () => {
                   color='blue'
                 />
                 <Button
-                  name={activity.id} // Make each button unique
+                  // Make each button unique
+                  name={activity.id}
                   // This loading flag is only going to be activated when we are deleting an activity, and the button name matches the activity.id
                   // This loading indicator will not be activated when we are editing an event/activity
                   loading={target === activity.id && submitting}
-                  onClick={e => deleteActivity(e, activity.id)} // Pass React mouse event as an additional parameter to deleteActivity, then from there we are able to extract the name of the button we are clicking, then set as the target button we want to activate when it is loading
+                  // Pass React mouse event as an additional parameter to deleteActivity, then from there we are able to extract the name of the button we are clicking, then set as the target button we want to activate when it is loading
+                  onClick={e => deleteActivity(e, activity.id)}
                   floated='right'
                   content='Delete'
                   color='red'

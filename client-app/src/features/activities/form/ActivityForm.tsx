@@ -6,7 +6,8 @@ import ActivityStore from '../../../app/stores/activityStore';
 import { observer } from 'mobx-react-lite';
 
 interface IProps {
-  activity: IActivity; // Represent initial form state
+  // Represent initial form state
+  activity: IActivity;
 }
 
 const ActivityForm: React.FC<IProps> = ({ activity: initialFormState }) => {
@@ -40,7 +41,8 @@ const ActivityForm: React.FC<IProps> = ({ activity: initialFormState }) => {
     if (activity.id.length === 0) {
       let newActivity = {
         ...activity,
-        id: uuid() // Install uuid package, which is a well-known package create GUID on the client side
+        // Install uuid package, which is a well-known package create GUID on the client side
+        id: uuid()
       };
       createActivity(newActivity);
     } else {

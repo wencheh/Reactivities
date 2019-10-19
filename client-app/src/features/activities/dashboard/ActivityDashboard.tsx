@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Grid } from 'semantic-ui-react';
 import ActivityList from './ActivityList';
 import ActivityDetails from '../details/ActivityDetails';
 import ActivityForm from '../form/ActivityForm';
-import { observer } from 'mobx-react-lite';
 import ActivityStore from '../../../app/stores/activityStore';
 
 const ActivityDashboard: React.FC = () => {
@@ -19,7 +19,8 @@ const ActivityDashboard: React.FC = () => {
         {selectedActivity && !editMode && <ActivityDetails />}
         {editMode && (
           <ActivityForm
-            key={(selectedActivity && selectedActivity.id) || 0} // Set the key, so when it changes, it will cause the component to re-initialize then update the state with the new state
+            // Set the key, so when it changes, it will cause the component to re-initialize then update the state with the new state
+            key={(selectedActivity && selectedActivity.id) || 0}
             activity={selectedActivity!}
           />
         )}
