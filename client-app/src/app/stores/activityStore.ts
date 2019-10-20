@@ -66,6 +66,7 @@ class ActivityStore {
         });
         this.loadingInitial = false;
       });
+      console.log(this.groupActivitiesByDate(activities));
     } catch (error) {
       runInAction('Loading activities error', () => {
         this.loadingInitial = false;
@@ -81,7 +82,8 @@ class ActivityStore {
     } else {
       this.loadingInitial = true;
       try {
-        activity = agent.Activities.details(id);
+        // Previously forgot to add await causing the page rendered before we get the activity
+        activity = await agent.Activities.details(id);
         runInAction('Getting activity', () => {
           this.activity = activity;
           this.loadingInitial = false;
