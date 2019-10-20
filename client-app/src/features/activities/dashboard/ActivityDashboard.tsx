@@ -13,7 +13,7 @@ const ActivityDashboard: React.FC = () => {
   }, [activityStore]);
 
   if (activityStore.loadingInitial)
-    return <LoadingComponent content='Loading activities...' />;
+    return <LoadingComponent content='Loading activities' />;
 
   return (
     <Grid>

@@ -26,7 +26,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
             <NavBar />
             <Container style={{ marginTop: '7em' }}>
               <Route exact path='/activities' component={ActivityDashboard} />
-              <Route exact path='/activities/:id' component={ActivityDetails} />
+              <Route path='/activities/:id' component={ActivityDetails} />
 
               {/* Add a key to this route, so when the props changes (creating vs managing an activity) inside this route, it creates a new instance whichever the component is loading here */}
               <Route
