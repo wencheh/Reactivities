@@ -14,11 +14,14 @@ configure({ enforceActions: 'always' });
 // This is a centuralized state
 class ActivityStore {
   @observable activityRegistry = new Map();
+
   // Where we are going to store our activities
-  @observable activities: IActivity[] = [];
-  @observable selectedActivity: IActivity | undefined;
+  // @observable activities: IActivity[] = [];
+
+  @observable activity: IActivity | null = null;
   @observable loadingInitial = false;
-  @observable editMode = false;
+
+  // @observable editMode = false;
   @observable submitting = false;
 
   // Represents the clicked button name
@@ -51,13 +54,42 @@ class ActivityStore {
     }
   };
 
+  @action loadActivity = async (id: string) => {
+    let activity = this.getActivity(id);
+    if (activity) {
+      this.activity = activity;
+    } else {
+      this.loadingInitial = true;
+      try {
+        activity = agent.Activities.details(id);
+        runInAction('Getting activity', () => {
+          this.activity = activity;
+          this.loadingInitial = false;
+        });
+      } catch (error) {
+        runInAction('Getting activity error', () => {
+          this.loadingInitial = false;
+        });
+        console.log(error);
+      }
+    }
+  };
+
+  @action clearActivity = () => {
+    this.activity = null;
+  };
+
+  getActivity = (id: string) => {
+    return this.activityRegistry.get(id);
+  };
+
   @action createActivity = async (activity: IActivity) => {
     this.submitting = true;
     try {
       await agent.Activities.create(activity);
       runInAction('Creating activity', () => {
         this.activityRegistry.set(activity.id, activity);
-        this.editMode = false;
+        // this.editMode = false;
         this.submitting = false;
       });
     } catch (error) {
@@ -74,9 +106,9 @@ class ActivityStore {
       await agent.Activities.update(activity);
       runInAction('Editing activity', () => {
         this.activityRegistry.set(activity.id, activity);
-        this.selectedActivity = activity;
+        this.activity = activity;
         this.submitting = false;
-        this.editMode = false;
+        // this.editMode = false;
       });
     } catch (error) {
       runInAction('Editing activity error', () => {
@@ -108,28 +140,10 @@ class ActivityStore {
     }
   };
 
-  @action openCreateForm = () => {
-    this.editMode = true;
-    this.selectedActivity = undefined;
-  };
-
-  @action openEditForm = (id: string) => {
-    this.selectedActivity = this.activityRegistry.get(id);
-    this.editMode = true;
-  };
-
-  @action cancelSelectedActivity = () => {
-    this.selectedActivity = undefined;
-  };
-
-  @action cancelFormOpen = () => {
-    this.editMode = false;
-  };
-
-  @action selectActivity = (id: string) => {
-    this.selectedActivity = this.activityRegistry.get(id);
-    this.editMode = false;
-  };
+  /* 
+    We don't need those any more because we are browsing to our different component by Routes
+    We no longer need to control the opening and closing via state anymore
+  */
 }
 
 // Use the store in our React Component: Context api
